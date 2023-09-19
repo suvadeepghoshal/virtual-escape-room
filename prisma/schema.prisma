@@ -11,10 +11,12 @@ datasource db {
 }
 
 model Room {
-  id          Int      @id @default(autoincrement())
-  name        String
-  description String
-  puzzles     Puzzle[]
+  id              Int      @id @default(autoincrement())
+  name            String
+  description     String
+  difficultyLevel Int
+  maxTimeLimit    Int
+  puzzles         Puzzle[]
 }
 
 model Puzzle {
