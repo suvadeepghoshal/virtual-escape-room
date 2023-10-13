@@ -1,8 +1,23 @@
+'use client';
+
 import Link from 'next/link';
+import React from 'react';
+import { SubmitHandler, useForm } from 'react-hook-form';
+import { Room } from '@/types/Room';
 
 export default function CreateRoom() {
+
+  const {
+    register,
+    handleSubmit,
+    watch,
+    formState: { errors },
+  } = useForm<Room>();
+
+  const onSubmit: SubmitHandler<Room> = (data) => console.log(data);
+
   return <div>
-    <form>
+    <form onSubmit={handleSubmit(onSubmit)}>
       <div className='space-y-12'>
         <div className='border-b border-gray-900/10 pb-12'>
           <h2 className='text-base font-semibold leading-7 text-gray-900 dark:text-gray-200'>Create Room</h2>
@@ -18,26 +33,27 @@ export default function CreateRoom() {
               </label>
               <div className='mt-2'>
                 <input
-                  id='roomNamw'
-                  name='roomName'
+                  id='name'
+                  {...register('name', { required: 'Title of the room is required' })}
                   type='text'
                   autoComplete='room-name'
-                  className='block w-full rounded-md border-0 py-1.5 text-gray-900 dark:text-gray-200 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6'
+                  className='block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6'
                 />
+                {errors.name && <p className='mt-2 text-sm text-red-600 dark:text-red-500'>{errors.name.message}</p>}
               </div>
             </div>
 
             <div className='col-span-full'>
-              <label htmlFor='roomDescription'
+              <label htmlFor='description'
                      className='block text-sm font-medium leading-6 text-gray-900 dark:text-gray-200'>
                 Room Description
               </label>
               <div className='mt-2'>
                 <textarea
-                  id='about'
-                  name='about'
+                  id='description'
+                  {...register('description')}
                   rows={3}
-                  className='block w-full rounded-md border-0 py-1.5 text-gray-900 dark:text-gray-200 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 dark:focus:ring-indigo-400 sm:text-sm sm:leading-6'
+                  className='block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 dark:focus:ring-indigo-400 sm:text-sm sm:leading-6'
                   defaultValue={''}
                 />
               </div>
@@ -62,7 +78,7 @@ export default function CreateRoom() {
               <div className='mt-2'>
                 <select
                   id='difficultyLevel'
-                  name='difficultyLevel'
+                  {...register('difficultyLevel')}
                   autoComplete='difficulty-level'
                   className='block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 dark:focus:ring-indigo-400 sm:max-w-xs sm:text-sm sm:leading-6'
                 >
@@ -74,18 +90,20 @@ export default function CreateRoom() {
             </div>
 
             <div className='sm:col-span-2 sm:col-start-1'>
-              <label htmlFor='maxTime'
+              <label htmlFor='maxTimeLimit'
                      className='block text-sm font-medium leading-6 text-gray-900 dark:text-gray-200'>
                 Time Limit To Solve
               </label>
               <div className='mt-2'>
                 <input
                   type='text'
-                  name='maxTime'
-                  id='maxTime'
+                  {...register('maxTimeLimit', { required: 'Solve time can not be 0 seconds' })}
+                  id='maxTimeLimit'
                   autoComplete='max-time'
-                  className='block w-full rounded-md border-0 py-1.5 text-gray-900 dark:text-gray-200 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6'
+                  className='block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6'
                 />
+                {errors.maxTimeLimit &&
+                  <p className='mt-2 text-sm text-red-600 dark:text-red-500'>{errors.maxTimeLimit.message}</p>}
               </div>
             </div>
 
