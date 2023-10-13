@@ -10,7 +10,6 @@ export default function CreateRoom() {
   const {
     register,
     handleSubmit,
-    watch,
     formState: { errors },
   } = useForm<Room>();
 
