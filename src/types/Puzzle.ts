@@ -1,10 +1,10 @@
-import {Room} from "@/types/Room";
+import { Room } from '@/types/Room';
 
-export interface Puzzle {
-    id: number;
-    name: string;
-    clue: string;
-    answer: string;
-    roomId: number;
-    room: Room;
+export type Puzzle = {
+  id: number;
+  name: string;
+  clue: string;
+  answer: string;
+  roomId: number;
+  room: Room;
 }
