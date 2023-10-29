@@ -4,8 +4,9 @@ import Link from 'next/link';
 import React from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { Room } from '@/types/Room';
+import axios from 'axios';
 
-export default function CreateRoom() {
+export default function CreateRoom(): React.JSX.Element {
 
   const {
     register,
@@ -13,7 +14,14 @@ export default function CreateRoom() {
     formState: { errors },
   } = useForm<Room>();
 
-  const onSubmit: SubmitHandler<Room> = (data) => console.log(data);
+  const onSubmit: SubmitHandler<Room> = async (data: Room) => {
+    try {
+      const response = await axios.post('/api/room/create');
+      console.log(response.data);
+    } catch (error) {
+      console.error('Error:', error);
+    }
+  };
 
   return <div>
     <form onSubmit={handleSubmit(onSubmit)}>
