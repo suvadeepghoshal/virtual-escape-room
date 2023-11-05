@@ -42,7 +42,7 @@ export async function POST(request: Request) {
         message: 'Room is successfully created!',
         category: Category.INFO,
       }, { status: 200 });
-  } catch (error) {
+  } catch (error: any) {
     const errorMessage: Message = {
       code: error.code,
       message: error.message,
