@@ -6,6 +6,8 @@ import { SubmitHandler, useForm } from 'react-hook-form';
 import { Room } from '@/types/Room';
 import axios from 'axios';
 import { Category } from '@/types/Message';
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 export default function CreateRoom(): React.JSX.Element {
 
@@ -20,19 +22,34 @@ export default function CreateRoom(): React.JSX.Element {
       const response = await axios.post('/api/room/create', data);
       const responseData = response.data;
       if (responseData.category === Category.INFO) {
-        // TODO: handle success in UI
-        console.log(responseData?.message);
+        toast.success(responseData?.message, {
+          position: toast.POSITION.TOP_LEFT,
+        });
       } else {
-        // TODO: handle error in UI
-        console.error(responseData?.message);
+        toast.error(responseData?.message, {
+          position: toast.POSITION.TOP_CENTER,
+        });
       }
     } catch (error) {
-      // TODO: need to see how to handle these errors
       console.error(error);
+      toast.error('Something went wrong!', {
+        position: toast.POSITION.TOP_CENTER,
+      });
     }
   };
 
   return <div>
+    <ToastContainer
+      autoClose={5000}
+      hideProgressBar={false}
+      newestOnTop={false}
+      closeOnClick
+      rtl={false}
+      pauseOnFocusLoss
+      draggable
+      pauseOnHover
+      theme='colored'
+    />
     <form onSubmit={handleSubmit(onSubmit)}>
       <div className='space-y-12'>
         <div className='border-b border-gray-900/10 pb-12'>
