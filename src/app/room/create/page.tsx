@@ -23,7 +23,7 @@ export default function CreateRoom(): React.JSX.Element {
       const responseData = response.data;
       if (responseData.category === Category.INFO) {
         toast.success(responseData?.message, {
-          position: toast.POSITION.TOP_LEFT,
+          position: toast.POSITION.TOP_CENTER,
         });
       } else {
         toast.error(responseData?.message, {
