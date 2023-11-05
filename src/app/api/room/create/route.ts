@@ -1,6 +1,6 @@
 import databases from '@/dbconfig/dbconfig';
 import { ID } from '@/app/appwrite';
-import { env } from '@/app/env.mjs';
+import { env } from '@/env.mjs';
 import { Room } from '@/types/Room';
 import { v4 as uuidv4 } from 'uuid';
 import { Query } from 'appwrite';

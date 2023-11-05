@@ -1,5 +1,5 @@
 import { Account, Client } from 'appwrite';
-import { env } from './env.mjs';
+import { env } from '../env.mjs';
 
 export const client: Client = new Client();
 
