@@ -4,8 +4,12 @@ import Link from 'next/link';
 import React from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { Room } from '@/types/Room';
+import axios from 'axios';
+import { Category } from '@/types/Message';
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
-export default function CreateRoom() {
+export default function CreateRoom(): React.JSX.Element {
 
   const {
     register,
@@ -13,9 +17,39 @@ export default function CreateRoom() {
     formState: { errors },
   } = useForm<Room>();
 
-  const onSubmit: SubmitHandler<Room> = (data) => console.log(data);
+  const onSubmit: SubmitHandler<Room> = async (data: Room) => {
+    try {
+      const response = await axios.post('/api/room/create', data);
+      const responseData = response.data;
+      if (responseData.category === Category.INFO) {
+        toast.success(responseData?.message, {
+          position: toast.POSITION.TOP_LEFT,
+        });
+      } else {
+        toast.error(responseData?.message, {
+          position: toast.POSITION.TOP_CENTER,
+        });
+      }
+    } catch (error) {
+      console.error(error);
+      toast.error('Something went wrong!', {
+        position: toast.POSITION.TOP_CENTER,
+      });
+    }
+  };
 
   return <div>
+    <ToastContainer
+      autoClose={5000}
+      hideProgressBar={false}
+      newestOnTop={false}
+      closeOnClick
+      rtl={false}
+      pauseOnFocusLoss
+      draggable
+      pauseOnHover
+      theme='colored'
+    />
     <form onSubmit={handleSubmit(onSubmit)}>
       <div className='space-y-12'>
         <div className='border-b border-gray-900/10 pb-12'>
@@ -33,12 +67,13 @@ export default function CreateRoom() {
               <div className='mt-2'>
                 <input
                   id='name'
-                  {...register('name', { required: 'Title of the room is required' })}
+                  {...register('room_name', { required: 'Title of the room is required' })}
                   type='text'
                   autoComplete='room-name'
                   className='block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6'
                 />
-                {errors.name && <p className='mt-2 text-sm text-red-600 dark:text-red-500'>{errors.name.message}</p>}
+                {errors.room_name &&
+                  <p className='mt-2 text-sm text-red-600 dark:text-red-500'>{errors.room_name.message}</p>}
               </div>
             </div>
 
@@ -50,7 +85,7 @@ export default function CreateRoom() {
               <div className='mt-2'>
                 <textarea
                   id='description'
-                  {...register('description')}
+                  {...register('room_description')}
                   rows={3}
                   className='block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 dark:focus:ring-indigo-400 sm:text-sm sm:leading-6'
                   defaultValue={''}
@@ -77,7 +112,7 @@ export default function CreateRoom() {
               <div className='mt-2'>
                 <select
                   id='difficultyLevel'
-                  {...register('difficultyLevel')}
+                  {...register('room_difficultyLevel')}
                   autoComplete='difficulty-level'
                   className='block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 dark:focus:ring-indigo-400 sm:max-w-xs sm:text-sm sm:leading-6'
                 >
@@ -96,13 +131,13 @@ export default function CreateRoom() {
               <div className='mt-2'>
                 <input
                   type='text'
-                  {...register('maxTimeLimit', { required: 'Solve time can not be 0 seconds' })}
+                  {...register('room_maxTimeLimit', { required: 'Solve time can not be 0 seconds' })}
                   id='maxTimeLimit'
                   autoComplete='max-time'
                   className='block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6'
                 />
-                {errors.maxTimeLimit &&
-                  <p className='mt-2 text-sm text-red-600 dark:text-red-500'>{errors.maxTimeLimit.message}</p>}
+                {errors.room_maxTimeLimit &&
+                  <p className='mt-2 text-sm text-red-600 dark:text-red-500'>{errors.room_maxTimeLimit.message}</p>}
               </div>
             </div>
 

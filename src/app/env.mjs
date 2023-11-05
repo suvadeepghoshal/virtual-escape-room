@@ -24,6 +24,8 @@ export const env = createEnv({
     APPWRITE_PROJECT_ID: z.string(),
     APPWRITE_API_ENPOINT: z.string(),
     APPWRITE_API_KEY: z.string(),
+    APPWRITE_DB_ID: z.string(),
+    APPWRITE_COLLECTION_ID: z.string(),
   },
 
   /**
@@ -47,6 +49,8 @@ export const env = createEnv({
     APPWRITE_PROJECT_ID: process.env.APPWRITE_PROJECT_ID,
     APPWRITE_API_ENPOINT: process.env.APPWRITE_API_ENPOINT,
     APPWRITE_API_KEY: process.env.APPWRITE_API_KEY,
+    APPWRITE_DB_ID: process.env.APPWRITE_DB_ID,
+    APPWRITE_COLLECTION_ID: process.env.APPWRITE_COLLECTION_ID,
   },
   /**
    * Run `build` or `dev` with `SKIP_ENV_VALIDATION` to skip env validation.
