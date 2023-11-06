@@ -2,6 +2,7 @@
 
 import { Suspense, useEffect, useState } from 'react';
 import axios from 'axios';
+import { DifficultyLevel, Room } from '@/types/Room';
 
 function Loading() {
   return <div role='status' className='max-w-sm animate-pulse'>
@@ -15,20 +16,50 @@ function Loading() {
   </div>;
 }
 
-const Rooms = () => {
-  const [rooms, setRooms] = useState();
+function Rooms() {
+  const [rooms, setRooms] = useState<Room[]>();
 
-  const getRooms = async () => {
-    const response = await axios.get('/api/room/list');
+  const [message, setMessage] = useState<string>();
+
+  const getRooms = async function (){
+    const response = await axios.get('/api/room');
     const data = response.data;
-    if (data.length) setRooms(data);
+    if (data.success) {
+      setMessage(data.message);
+      setRooms(data.rooms);
+    }
   };
 
   useEffect(function() {
     getRooms();
   }, []);
 
-  return <>{rooms}</>;
+  function convertToEnum(room_difficultyLevel: DifficultyLevel): import("react").ReactNode {
+    switch (room_difficultyLevel) {
+      case DifficultyLevel.easy:
+        return 'Easy';
+      case DifficultyLevel.medium:
+        return 'Medium';
+      case DifficultyLevel.hard:
+        return 'Hard';
+      default:
+        return 'Unknown';
+    }
+  }
+
+  return <div>
+    <p>{message}</p>
+    <hr />
+    {rooms && rooms.map(function (room: Room) {
+      return <div key={room.room_id}>
+        <h2>Room Name: {room.room_name}</h2>
+        <p>Room Description: {room.room_description}</p>
+        <p>Maximum time to solve puzzle: {room.room_maxTimeLimit} seconds</p>
+        <p>Room difficulty level: {convertToEnum(room.room_difficultyLevel)}</p>
+        <br />
+      </div>
+    })}
+  </div>
 };
 
 export default function listRooms(): JSX.Element {

@@ -1,12 +1,13 @@
 import databases from '@/dbconfig/dbconfig';
 import { ID } from '@/app/appwrite';
 import { env } from '@/env.mjs';
-import { Room } from '@/types/Room';
+import { DifficultyLevel, Room } from '@/types/Room';
 import { v4 as uuidv4 } from 'uuid';
 import { Query } from 'appwrite';
 import { Models } from 'node-appwrite';
 import { RoomRS } from '@/types/RoomRS';
 import { Category, Message } from '@/types/Message';
+import { NextRequest, NextResponse } from 'next/server';
 
 export async function POST(request: Request) {
   const body = await request.json();
@@ -53,3 +54,35 @@ export async function POST(request: Request) {
     });
   }
 }
+
+function sanitizeRoomResponse(room: Room[]) {
+  const sanitizedRoom = room.map((room) => {
+    return {
+      room_id: room.room_id,
+      room_name: room.room_name,
+      room_description: room.room_description,
+      room_difficultyLevel: room.room_difficultyLevel,
+      room_maxTimeLimit: room.room_maxTimeLimit,
+    };
+  });
+  return sanitizedRoom;
+}
+
+export async function GET(_request: NextRequest) {
+  const response = await databases.listDocuments(env.APPWRITE_DB_ID, env.APPWRITE_COLLECTION_ID);
+  
+  if (response?.total === 0) return NextResponse.json({
+    message : 'No rooms are available',
+  }, {
+    status: 200
+  });
+  
+  return NextResponse.json({
+    message: 'Rooms are successfully fetched!',
+    rooms: sanitizeRoomResponse(response.documents),
+    success: true
+  }, {
+    status: 200
+  })
+}
+

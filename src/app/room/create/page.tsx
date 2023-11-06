@@ -19,7 +19,7 @@ export default function CreateRoom(): React.JSX.Element {
 
   const onSubmit: SubmitHandler<Room> = async (data: Room) => {
     try {
-      const response = await axios.post('/api/room/create', data);
+      const response = await axios.post('/api/room', data);
       const responseData = response.data;
       if (responseData.category === Category.INFO) {
         toast.success(responseData?.message, {
@@ -60,8 +60,7 @@ export default function CreateRoom(): React.JSX.Element {
 
           <div className='mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6'>
             <div className='sm:col-span-4'>
-              <label htmlFor='text'
-                     className='block text-sm font-medium leading-6 text-gray-900 dark:text-gray-200'>
+              <label htmlFor='text' className='block text-sm font-medium leading-6 text-gray-900 dark:text-gray-200'>
                 Room Name
               </label>
               <div className='mt-2'>
@@ -78,8 +77,7 @@ export default function CreateRoom(): React.JSX.Element {
             </div>
 
             <div className='col-span-full'>
-              <label htmlFor='description'
-                     className='block text-sm font-medium leading-6 text-gray-900 dark:text-gray-200'>
+              <label htmlFor='description' className='block text-sm font-medium leading-6 text-gray-900 dark:text-gray-200'>
                 Room Description
               </label>
               <div className='mt-2'>
@@ -105,8 +103,7 @@ export default function CreateRoom(): React.JSX.Element {
           <div className='mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6'>
 
             <div className='sm:col-span-3'>
-              <label htmlFor='difficultyLevel'
-                     className='block text-sm font-medium leading-6 text-gray-900 dark:text-gray-200'>
+              <label htmlFor='difficultyLevel' className='block text-sm font-medium leading-6 text-gray-900 dark:text-gray-200'>
                 Room Difficulty
               </label>
               <div className='mt-2'>
@@ -124,8 +121,7 @@ export default function CreateRoom(): React.JSX.Element {
             </div>
 
             <div className='sm:col-span-2 sm:col-start-1'>
-              <label htmlFor='maxTimeLimit'
-                     className='block text-sm font-medium leading-6 text-gray-900 dark:text-gray-200'>
+              <label htmlFor='maxTimeLimit' className='block text-sm font-medium leading-6 text-gray-900 dark:text-gray-200'>
                 Time Limit To Solve
               </label>
               <div className='mt-2'>
