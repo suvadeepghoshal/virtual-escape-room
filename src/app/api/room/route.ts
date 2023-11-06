@@ -55,7 +55,7 @@ export async function POST(request: Request) {
   }
 }
 
-function sanitizeRoomResponse(room: Room[]) {
+function sanitizeRoomResponse(room: RoomRS[]) {
   const sanitizedRoom = room.map((room) => {
     return {
       room_id: room.room_id,
@@ -79,7 +79,7 @@ export async function GET(_request: NextRequest) {
   
   return NextResponse.json({
     message: 'Rooms are successfully fetched!',
-    rooms: sanitizeRoomResponse(response.documents),
+    rooms: sanitizeRoomResponse(response.documents as RoomRS[]),
     success: true
   }, {
     status: 200
