@@ -70,9 +70,10 @@ function sanitizeRoomResponse(room: RoomRS[]) {
 
 export async function GET(_request: NextRequest) {
   const response = await databases.listDocuments(env.APPWRITE_DB_ID, env.APPWRITE_COLLECTION_ID);
-  
+
   if (response?.total === 0) return NextResponse.json({
     message : 'No rooms are available',
+    sucess: false
   }, {
     status: 200
   });
