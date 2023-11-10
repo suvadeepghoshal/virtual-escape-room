@@ -2,7 +2,7 @@
 
 import { Suspense, useEffect, useState } from 'react';
 import axios from 'axios';
-import { DifficultyLevel, Room } from '@/types/Room';
+import { Room } from '@/types/Room';
 import Link from 'next/link';
 
 function Loading() {
@@ -36,25 +36,12 @@ function Rooms() {
     getRooms();
   }, []);
 
-  function convertToEnum(room_difficultyLevel: DifficultyLevel): import("react").ReactNode {
-    switch (room_difficultyLevel) {
-      case DifficultyLevel.easy:
-        return 'Easy';
-      case DifficultyLevel.medium:
-        return 'Medium';
-      case DifficultyLevel.hard:
-        return 'Hard';
-      default:
-        return 'Unknown';
-    }
-  }
-
   return <div>
     <p className={status ? '' : 'text-red-500'}>{message}</p>
     <hr />
     {status && rooms && rooms.map(function (room: Room) {
       return <div key={room.room_id}>
-        <Link href={'/'}>Room Name: {room.room_name}</Link>
+        <Link href={`list/${room.room_id}`}>Room Name: {room.room_name}</Link>
         <br />
       </div>
     })}
