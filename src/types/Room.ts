@@ -1,7 +1,7 @@
 import { Puzzle } from '@/types/Puzzle';
 
 export type Room = {
-  room_id: number;
+  room_id: string;
   room_name: string;
   room_description: string;
   room_difficultyLevel: DifficultyLevel;

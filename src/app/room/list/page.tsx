@@ -18,7 +18,7 @@ function Loading() {
 }
 
 function Rooms() {
-  const [rooms, setRooms] = useState<Room[]>();
+  const [rooms, setRooms] = useState<Room[]>([]);
 
   const [message, setMessage] = useState<string>();
 
@@ -29,13 +29,12 @@ function Rooms() {
     const data = response.data;
     setStatus(data.success);
     setMessage(data.message);
-    if (status)
-      setRooms(data.rooms);
+    setRooms(data.rooms);
   };
 
   useEffect(function() {
     getRooms();
-  });
+  }, []);
 
   function convertToEnum(room_difficultyLevel: DifficultyLevel): import("react").ReactNode {
     switch (room_difficultyLevel) {
@@ -53,7 +52,7 @@ function Rooms() {
   return <div>
     <p className={status ? '' : 'text-red-500'}>{message}</p>
     <hr />
-    {rooms && rooms.map(function (room: Room) {
+    {status && rooms && rooms.map(function (room: Room) {
       return <div key={room.room_id}>
         <Link href={'/'}>Room Name: {room.room_name}</Link>
         <br />
