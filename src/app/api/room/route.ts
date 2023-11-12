@@ -64,10 +64,11 @@ export async function POST(request: Request) {
   }
 }
 
-function sanitizeRoomResponse(room: RoomRS[]) {
-  const sanitizedRoom = room.map((room) => {
+function sanitizeRoomResponse(rooms: RoomRS[]) {
+  console.log(rooms);
+  const sanitizedRoom = rooms.map((room) => {
     return {
-      room_id: room.room_id,
+      room_id: room.$collectionId,
       room_name: room.room_name,
       room_description: room.room_description,
       room_difficultyLevel: room.room_difficultyLevel,

@@ -2,8 +2,8 @@
 
 import { useEffect, useState } from 'react';
 import axios from 'axios';
-import { Room } from '@/types/Room';
 import Link from 'next/link';
+import { Room } from '@/types/Room';
 
 function Loading() {
   return (
