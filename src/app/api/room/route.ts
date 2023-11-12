@@ -121,7 +121,8 @@ export async function GET(request: NextRequest) {
   async function getRooms() {
     const response = await databases.listDocuments(
       env.APPWRITE_DB_ID,
-      env.APPWRITE_COLLECTION_ID
+      env.APPWRITE_COLLECTION_ID,
+      [Query.select(['room_name', '$id'])]
     );
 
     if (response?.total === 0)
