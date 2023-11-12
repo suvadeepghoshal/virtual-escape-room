@@ -65,7 +65,6 @@ export async function POST(request: Request) {
 }
 
 function sanitizeRoomResponse(rooms: RoomRS[]) {
-  console.log(rooms);
   const sanitizedRoom = rooms.map((room) => {
     return {
       room_id: room.$collectionId,
