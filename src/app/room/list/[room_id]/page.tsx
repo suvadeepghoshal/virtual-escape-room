@@ -39,9 +39,12 @@ export default function RoomDetails({ params }: { params: any }): JSX.Element {
     }
   }
 
-  useEffect(function () {
-    getRoomByID(params.room_id);
-  });
+  useEffect(
+    function () {
+      getRoomByID(params.room_id);
+    },
+    [params.room_id]
+  );
 
   return (
     <div>
