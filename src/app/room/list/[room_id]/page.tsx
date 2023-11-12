@@ -1,9 +1,8 @@
 'use client';
 
 import { DifficultyLevel, Room } from '@/types/Room';
-import Loading from '@/util/Loading';
+import { Loading } from '@/util/Loading';
 import axios from 'axios';
-import Link from 'next/link';
 import { useEffect, useState } from 'react';
 
 export default function RoomDetails({ params }: { params: any }): JSX.Element {
