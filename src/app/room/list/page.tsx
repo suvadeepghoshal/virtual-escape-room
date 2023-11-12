@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import axios from 'axios';
 import Link from 'next/link';
 import { Room } from '@/types/Room';
-import { Loading } from '@/util/Loading';
+import { Loading } from '@/app/util/Loading';
 
 function Rooms() {
   const [rooms, setRooms] = useState<Room[]>([]);

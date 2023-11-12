@@ -1,7 +1,7 @@
 'use client';
 
 import { DifficultyLevel, Room } from '@/types/Room';
-import { Loading } from '@/util/Loading';
+import { Loading } from '@/app/util/Loading';
 import axios from 'axios';
 import { useEffect, useState } from 'react';
 
