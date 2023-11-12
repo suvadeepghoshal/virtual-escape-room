@@ -8,6 +8,7 @@ import { Models } from 'node-appwrite';
 import { RoomRS } from '@/types/RoomRS';
 import { Category, Message } from '@/types/Message';
 import { NextRequest, NextResponse } from 'next/server';
+import { get } from 'http';
 
 export async function POST(request: Request) {
   const body = await request.json();
@@ -64,21 +65,60 @@ export async function POST(request: Request) {
   }
 }
 
-function sanitizeRoomResponse(rooms: RoomRS[]) {
-  const sanitizedRoom = rooms.map((room) => {
-    return {
-      room_id: room.$collectionId,
-      room_name: room.room_name,
-      room_description: room.room_description,
-      room_difficultyLevel: room.room_difficultyLevel,
-      room_maxTimeLimit: room.room_maxTimeLimit,
+function sanitizeRoomResponse(rooms: RoomRS[]): Room[] | Room {
+  let sanitizedRoom: Room | Room[] = [];
+  if (rooms.length === 1) {
+    sanitizedRoom = {
+      room_id: rooms[0].$id,
+      room_name: rooms[0].room_name,
+      room_description: rooms[0].room_description,
+      room_difficultyLevel: rooms[0].room_difficultyLevel,
+      room_maxTimeLimit: rooms[0].room_maxTimeLimit,
     };
-  });
+  } else {
+    sanitizedRoom = rooms.map((room) => {
+      return {
+        room_id: room.$id,
+        room_name: room.room_name,
+        room_description: room.room_description,
+        room_difficultyLevel: room.room_difficultyLevel,
+        room_maxTimeLimit: room.room_maxTimeLimit,
+      };
+    });
+  }
   return sanitizedRoom;
 }
 
-export async function GET(_request: NextRequest) {
-  try {
+export async function GET(request: NextRequest) {
+  const roomID = request.nextUrl.searchParams.get('id');
+
+  async function getRoomByID(roomID: string) {
+    const response = await databases.getDocument(
+      env.APPWRITE_DB_ID,
+      env.APPWRITE_COLLECTION_ID,
+      roomID
+    );
+
+    if (!response) {
+      return NextResponse.json(
+        {
+          message: 'No rooms are available',
+          sucess: false,
+        },
+        {
+          status: 200,
+        }
+      );
+    }
+
+    return {
+      message: 'Room is successfully fetched!',
+      room: sanitizeRoomResponse(new Array(response) as RoomRS[]),
+      success: true,
+    };
+  }
+
+  async function getRooms() {
     const response = await databases.listDocuments(
       env.APPWRITE_DB_ID,
       env.APPWRITE_COLLECTION_ID
@@ -95,16 +135,22 @@ export async function GET(_request: NextRequest) {
         }
       );
 
-    return NextResponse.json(
-      {
-        message: 'Rooms are successfully fetched!',
-        rooms: sanitizeRoomResponse(response.documents as RoomRS[]),
-        success: true,
-      },
-      {
-        status: 200,
-      }
-    );
+    return {
+      message: 'Rooms are successfully fetched!',
+      rooms: sanitizeRoomResponse(response.documents as RoomRS[]),
+      success: true,
+    };
+  }
+
+  try {
+    let response;
+
+    if (roomID) response = getRoomByID(roomID);
+    else response = getRooms();
+
+    return NextResponse.json(await response, {
+      status: 200,
+    });
   } catch (error: any) {
     const errorMessage: Message = {
       code: error.code,

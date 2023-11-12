@@ -6,9 +6,11 @@ export type Room = {
   room_description: string;
   room_difficultyLevel: DifficultyLevel;
   room_maxTimeLimit: number;
-  puzzles: Puzzle[];
-}
+  puzzles?: Puzzle[];
+};
 
 export enum DifficultyLevel {
-  easy = 0, medium = 1, hard = 2
+  easy = 0,
+  medium = 1,
+  hard = 2,
 }
