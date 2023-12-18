@@ -17,6 +17,11 @@ const config = {
   //   locales: ['en'],
   //   defaultLocale: 'en',
   // },
+  experimental: {
+    serverActions: {
+      allowedOrigins: ['my-proxy.com', '*.my-proxy.com'],
+    },
+  },
 };
 
 export default config;

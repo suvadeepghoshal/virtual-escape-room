@@ -3,6 +3,8 @@ import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Button } from '@/components/ui/button';
+import Option from './option';
+// import { unstable_noStore as noStore } from 'next/cache';
 
 export default function puzzle({
   mode,
@@ -10,7 +12,7 @@ export default function puzzle({
 }: {
   mode: string;
   editable: boolean;
-}): JSX.Element {
+}) {
   return (
     <div>
       {mode === 'edit' && editable ? (
@@ -29,14 +31,18 @@ function EditPuzzle(): JSX.Element {
 }
 
 function CreatePuzzle(): JSX.Element {
+  function createPuzzle() {
+    // TODO: server side action to be done to submit the form details to appwrite
+    console.log('Need to suceed on failure at this step');
+  }
+
   return (
     <div className='p-10'>
       <Card className='bg-[#ffffff] rounded-lg shadow-md p-6 max-w-3xl mx-auto'>
         <CardHeader>
           <h2 className='text-2xl font-semibold'>Create One?</h2>
         </CardHeader>
-        {/* server side action to be done to submit the form details to appwrite */}
-        <form action=''>
+        <form action={createPuzzle}>
           <CardContent className='space-y-6'>
             <div className='space-y-2'>
               <Label
@@ -67,24 +73,7 @@ function CreatePuzzle(): JSX.Element {
             <div className='space-y-2'>
               <Label className='font-medium text-gray-700'>Options</Label>
               <div className='grid gap-4'>
-                <div className='flex space-x-2'>
-                  <Input
-                    className='flex-grow px-3 py-2 border border-gray-300 rounded-md'
-                    placeholder='Option 1'
-                  />
-                  <Button className='bg-indigo-600 text-white rounded-md'>
-                    +
-                  </Button>
-                </div>
-                <div className='flex space-x-2'>
-                  <Input
-                    className='flex-grow px-3 py-2 border border-gray-300 rounded-md'
-                    placeholder='Option 2'
-                  />
-                  <Button className='bg-indigo-600 text-white rounded-md'>
-                    +
-                  </Button>
-                </div>
+                <Option max={4} />
               </div>
             </div>
             <div className='space-y-2'>

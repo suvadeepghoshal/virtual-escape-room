@@ -6,6 +6,8 @@ import axios from 'axios';
 import { useEffect, useState } from 'react';
 import Puzzle from '@/components/custom-ui/puzzle';
 
+// export const dynamic = 'force-dynamic'; // defaults to auto
+
 export default function RoomDetails({ params }: { params: any }): JSX.Element {
   function convertToEnum(
     room_difficultyLevel: DifficultyLevel
@@ -34,7 +36,6 @@ export default function RoomDetails({ params }: { params: any }): JSX.Element {
       const data = await response.data;
       setStatus(data.success);
       setMessage(data.message);
-      console.log(data.room.puzzles);
       setRoom(data.room);
     } catch (_error) {
       setMessage('Unable to fetch the room details!');

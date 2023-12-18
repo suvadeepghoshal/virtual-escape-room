@@ -8,7 +8,6 @@ import { Models } from 'node-appwrite';
 import { RoomRS } from '@/types/RoomRS';
 import { Category, Message } from '@/types/Message';
 import { NextRequest, NextResponse } from 'next/server';
-import { log } from 'console';
 
 export async function POST(request: Request) {
   const body = await request.json();
@@ -113,8 +112,6 @@ export async function GET(request: NextRequest) {
         }
       );
     }
-
-    console.log(response);
 
     return {
       message: 'Room is successfully fetched!',
