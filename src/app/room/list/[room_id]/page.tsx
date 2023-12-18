@@ -4,6 +4,7 @@ import { DifficultyLevel, Room } from '@/types/Room';
 import { Loading } from '@/app/util/Loading';
 import axios from 'axios';
 import { useEffect, useState } from 'react';
+import Puzzle from '@/components/custom-ui/puzzle';
 
 export default function RoomDetails({ params }: { params: any }): JSX.Element {
   function convertToEnum(
@@ -33,6 +34,7 @@ export default function RoomDetails({ params }: { params: any }): JSX.Element {
       const data = await response.data;
       setStatus(data.success);
       setMessage(data.message);
+      console.log(data.room.puzzles);
       setRoom(data.room);
     } catch (_error) {
       setMessage('Unable to fetch the room details!');
@@ -65,6 +67,25 @@ export default function RoomDetails({ params }: { params: any }): JSX.Element {
                   {room.room_maxTimeLimit} seconds
                 </p>
                 <br />
+                {room.puzzles && room.puzzles.length > 0 ? (
+                  <div>
+                    <p>Puzzles in this room:</p>
+                    <ul>
+                      {room.puzzles.map((puzzle) => {
+                        return (
+                          <li key={puzzle.id}>
+                            <Puzzle mode={'view'} editable={true} />
+                          </li>
+                        );
+                      })}
+                    </ul>
+                  </div>
+                ) : (
+                  <div>
+                    <p className='text-red-500'>No Puzzles in this room</p>
+                    <Puzzle mode={'create'} editable={true} />
+                  </div>
+                )}
               </div>
             )}
           </div>
