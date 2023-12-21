@@ -8,6 +8,7 @@ import { Models } from 'node-appwrite';
 import { RoomRS } from '@/types/RoomRS';
 import { Category, Message } from '@/types/Message';
 import { NextRequest, NextResponse } from 'next/server';
+import sanitizeRoomResponse from '@/app/util/sanitizeRoomResponse';
 
 export async function POST(request: Request) {
   const body = await request.json();
@@ -64,33 +65,6 @@ export async function POST(request: Request) {
   }
 }
 
-function sanitizeRoomResponse(rooms: RoomRS[]): Room[] | Room {
-  let sanitizedRoom: Room | Room[] = [];
-  if (rooms.length === 1) {
-    sanitizedRoom = {
-      room_id: rooms[0].$id,
-      room_name: rooms[0].room_name,
-      room_description: rooms[0].room_description,
-      room_difficultyLevel: rooms[0].room_difficultyLevel,
-      room_maxTimeLimit: rooms[0].room_maxTimeLimit,
-      puzzles:
-        rooms[0].puzzles && rooms[0].puzzles.length ? rooms[0].puzzles : [],
-    };
-  } else {
-    sanitizedRoom = rooms.map((room) => {
-      return {
-        room_id: room.$id,
-        room_name: room.room_name,
-        room_description: room.room_description,
-        room_difficultyLevel: room.room_difficultyLevel,
-        room_maxTimeLimit: room.room_maxTimeLimit,
-        puzzles: room.puzzles && room.puzzles.length ? room.puzzles : [],
-      };
-    });
-  }
-  return sanitizedRoom;
-}
-
 export async function GET(request: NextRequest) {
   const roomID = request.nextUrl.searchParams.get('id');
 
@@ -105,7 +79,7 @@ export async function GET(request: NextRequest) {
       return NextResponse.json(
         {
           message: 'No rooms are available',
-          sucess: false,
+          success: false,
         },
         {
           status: 200,
