@@ -1,10 +1,9 @@
-import { CardHeader, CardContent, Card } from '@/components/ui/card';
+import { Card, CardContent, CardHeader } from '@/components/ui/card';
 import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Button } from '@/components/ui/button';
 import Option from './option';
-// import { unstable_noStore as noStore } from 'next/cache';
 
 export default function puzzle({
   mode,
@@ -26,16 +25,17 @@ export default function puzzle({
   );
 }
 
-function EditPuzzle(): JSX.Element {
+async function EditPuzzle() {
   return <div>Edit puzzle</div>;
 }
 
-function CreatePuzzle(): JSX.Element {
-  function createPuzzle() {
-    // TODO: server side action to be done to submit the form details to appwrite
-    console.log('Need to suceed on failure at this step');
-  }
+const createPuzzle = async () => {
+  'use server';
+  // TODO: server side action to be done to submit the form details to appwrite
+  console.log('Need to suceed on failure at this step');
+};
 
+function CreatePuzzle() {
   return (
     <div className='p-10'>
       <Card className='bg-[#ffffff] rounded-lg shadow-md p-6 max-w-3xl mx-auto'>
@@ -99,6 +99,6 @@ function CreatePuzzle(): JSX.Element {
   );
 }
 
-function ViewPuzzle(): JSX.Element {
+async function ViewPuzzle() {
   return <div>View puzzle</div>;
 }
