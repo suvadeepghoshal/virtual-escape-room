@@ -8,8 +8,8 @@ export default async function RoomDetails({ params }: { params: any }) {
 
   const resp = await getRoomById(params.room_id);
   const room: Room = resp.room as Room;
-  const status = resp?.status;
-  const message = resp?.message;
+  const status = resp?.message?.code === 200;
+  const message = resp?.message?.message;
 
   return (
     <div>

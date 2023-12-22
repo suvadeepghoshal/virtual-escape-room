@@ -11,14 +11,14 @@ function Rooms() {
 
   const [message, setMessage] = useState<string>();
 
-  const [status, setStatus] = useState<string>();
+  const [status, setStatus] = useState<boolean>();
 
   const getRooms = async function () {
     try {
       const response = await axios.get('/api/room');
       const data = response.data;
-      setStatus(data.success);
-      setMessage(data.message);
+      setStatus(data.message.code === 200);
+      setMessage(data.message?.message);
       setRooms(data.rooms);
     } catch (_error) {
       setMessage('Unable to fetch the room details!');

@@ -10,6 +10,7 @@ import { Category, Message } from '@/types/Message';
 import { NextRequest, NextResponse } from 'next/server';
 import sanitizeRoomResponse from '@/app/util/sanitizeRoomResponse';
 import parseError from '@/app/util/parseError';
+import { CommonResponse } from '@/types/CommonResponse';
 
 export async function POST(request: Request) {
   const body = await request.json();
@@ -75,8 +76,11 @@ export async function GET(request: NextRequest) {
     if (!response) {
       return NextResponse.json(
         {
-          message: 'No rooms are available',
-          success: false,
+          message: {
+            code: 200,
+            message: 'No rooms are available',
+            category: Category.ERROR,
+          },
         },
         {
           status: 200,
@@ -85,13 +89,16 @@ export async function GET(request: NextRequest) {
     }
 
     return {
-      message: 'Room is successfully fetched!',
+      message: {
+        code: 200,
+        message: 'Room is successfully fetched!',
+        category: Category.INFO,
+      },
       room: sanitizeRoomResponse(new Array(response) as RoomRS[]),
-      success: true,
     };
   }
 
-  async function getRooms() {
+  async function getRooms(): Promise<CommonResponse> {
     const response = await databases.listDocuments(
       env.APPWRITE_DB_ID,
       env.APPWRITE_COLLECTION_ID,
@@ -101,8 +108,11 @@ export async function GET(request: NextRequest) {
     if (response?.total === 0)
       return NextResponse.json(
         {
-          message: 'No rooms are available',
-          sucess: false,
+          message: {
+            code: 200,
+            message: 'No rooms are available',
+            category: Category.ERROR,
+          },
         },
         {
           status: 200,
@@ -110,9 +120,12 @@ export async function GET(request: NextRequest) {
       );
 
     return {
-      message: 'Rooms are successfully fetched!',
-      rooms: sanitizeRoomResponse(response.documents as RoomRS[]),
-      success: true,
+      message: {
+        code: 200,
+        message: 'Room is successfully fetched!',
+        category: Category.INFO,
+      },
+      rooms: sanitizeRoomResponse(response.documents as RoomRS[]) as Room[],
     };
   }
 
