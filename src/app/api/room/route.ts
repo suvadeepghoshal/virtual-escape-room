@@ -9,6 +9,7 @@ import { RoomRS } from '@/types/RoomRS';
 import { Category, Message } from '@/types/Message';
 import { NextRequest, NextResponse } from 'next/server';
 import sanitizeRoomResponse from '@/app/util/sanitizeRoomResponse';
+import parseError from '@/app/util/parseError';
 
 export async function POST(request: Request) {
   const body = await request.json();
@@ -54,11 +55,7 @@ export async function POST(request: Request) {
         { status: 200 }
       );
   } catch (error: any) {
-    const errorMessage: Message = {
-      code: error.code,
-      message: error.message,
-      category: Category.ERROR,
-    };
+    const errorMessage: Message = parseError(error, null);
     return Response.json(errorMessage, {
       status: 500,
     });
@@ -129,11 +126,7 @@ export async function GET(request: NextRequest) {
       status: 200,
     });
   } catch (error: any) {
-    const errorMessage: Message = {
-      code: error.code,
-      message: error.message,
-      category: Category.ERROR,
-    };
+    const errorMessage: Message = parseError(error, null);
     return Response.json(errorMessage, {
       status: 500,
     });
