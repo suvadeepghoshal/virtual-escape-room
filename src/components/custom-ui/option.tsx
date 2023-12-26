@@ -35,6 +35,7 @@ export default function Option({ max }: { max: number }): JSX.Element {
                   className='w-full px-3 py-2 border border-gray-300 rounded-md'
                   id='option'
                   placeholder={`Enter option ${option}`}
+                  name={`option-${option}`}
                 />
                 <Button
                   className='bg-indigo-600 text-white rounded-md'
