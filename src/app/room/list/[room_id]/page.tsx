@@ -1,7 +1,7 @@
 import { Loading } from '@/app/util/Loading';
 import Puzzle from '@/components/custom-ui/puzzle';
-import getRoomById from '@/app/action';
 import { Room } from '@/types/Room';
+import getRoomById from '@/lib/actions/getRoomAction';
 
 export default async function RoomDetails({ params }: { params: any }) {
   'use server';

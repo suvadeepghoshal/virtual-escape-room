@@ -1,9 +1,13 @@
+'use client';
+
 import { Card, CardContent, CardHeader } from '@/components/ui/card';
 import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Button } from '@/components/ui/button';
 import Option from './option';
+import createPuzzle from '@/lib/actions/createPuzzleAction';
+import { useFormStatus } from 'react-dom';
 
 export default function puzzle({
   mode,
@@ -29,13 +33,8 @@ async function EditPuzzle() {
   return <div>Edit puzzle</div>;
 }
 
-const createPuzzle = async () => {
-  'use server';
-  // TODO: server side action to be done to submit the form details to appwrite
-  console.log('Need to suceed on failure at this step');
-};
-
 function CreatePuzzle() {
+  const { pending } = useFormStatus();
   return (
     <div className='p-10'>
       <Card className='bg-[#ffffff] rounded-lg shadow-md p-6 max-w-3xl mx-auto'>
@@ -55,6 +54,8 @@ function CreatePuzzle() {
                 className='w-full px-3 py-2 border border-gray-300 rounded-md'
                 id='puzzle-name'
                 placeholder='Enter puzzle name'
+                type='text'
+                name='puzzle-name'
               />
             </div>
             <div className='space-y-2'>
@@ -68,6 +69,7 @@ function CreatePuzzle() {
                 className='w-full px-3 py-2 border border-gray-300 rounded-md min-h-[100px]'
                 id='puzzle-question'
                 placeholder='Enter puzzle question'
+                name='puzzle-question'
               />
             </div>
             <div className='space-y-2'>
@@ -87,9 +89,15 @@ function CreatePuzzle() {
                 className='w-full px-3 py-2 border border-gray-300 rounded-md'
                 id='correct-answer'
                 placeholder='Enter correct answer'
+                type='text'
+                name='correct-answer'
               />
             </div>
-            <Button className='w-full bg-indigo-600 text-white py-2 rounded-md'>
+            <Button
+              className='w-full bg-indigo-600 text-white py-2 rounded-md'
+              type={'submit'}
+              aria-disabled={pending}
+            >
               Generate Puzzle
             </Button>
           </CardContent>
