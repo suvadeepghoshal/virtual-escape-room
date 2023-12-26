@@ -4,12 +4,12 @@ import { z } from 'zod';
 import parseError from '@/app/util/parseError';
 
 const puzzleSchema = z.object({
-  puzzle_name: z.string().min(3).max(100),
+  puzzle_name: z.string().trim().min(3).max(100),
   qna: z.array(
     z.object({
-      question: z.string().min(3).max(100),
-      answer: z.string().min(3).max(100),
-      options: z.array(z.nullable(z.string().max(100))),
+      question: z.string().trim().min(3).max(100),
+      answer: z.string().trim().min(3).max(100),
+      options: z.array(z.nullable(z.string().trim().max(100))),
     })
   ),
 });
