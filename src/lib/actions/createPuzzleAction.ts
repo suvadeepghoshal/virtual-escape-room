@@ -2,6 +2,9 @@
 
 import { z } from 'zod';
 import parseError from '@/app/util/parseError';
+import databases from '@/dbconfig/dbconfig';
+import { env } from '@/env.mjs';
+import { ID } from '@/app/appwrite';
 
 const puzzleSchema = z.object({
   puzzle_name: z.string().trim().min(3).max(100),
@@ -38,7 +41,17 @@ export default async function createPuzzle(formData: FormData) {
         puzzle
       )}`
     );
+    if (puzzle) {
+      const response = await databases.createDocument(
+        env.APPWRITE_DB_ID,
+        env.APPWRITE_COLLECTION_ID,
+        ID.unique(),
+        puzzle
+      );
+      console.log(response);
+    }
   } catch (e: any) {
+    console.error(e);
     return { message: parseError(e, null) };
   }
 }
