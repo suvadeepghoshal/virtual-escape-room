@@ -17,11 +17,12 @@ const config = {
   //   locales: ['en'],
   //   defaultLocale: 'en',
   // },
-  experimental: {
-    serverActions: {
-      allowedOrigins: ['my-proxy.com', '*.my-proxy.com'],
-    },
-  },
+  // experimental: {
+  //   serverActions: {
+  //     allowedOrigins: ['http://localhost:3000'],
+  //     bodySizeLimit: '2mb',
+  //   },
+  // },
 };
 
 export default config;
